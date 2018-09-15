@@ -1,8 +1,10 @@
 package br.com.deutilt.gympasschallenge.services;
 
+import br.com.deutilt.gympasschallenge.converters.LapRecordToLapRecordDTOConverter;
 import br.com.deutilt.gympasschallenge.converters.RaceDTOToResultDTOConverter;
 import br.com.deutilt.gympasschallenge.interfaces.IResultService;
 import br.com.deutilt.gympasschallenge.models.LapRecord;
+import br.com.deutilt.gympasschallenge.models.dtos.LapRecordDTO;
 import br.com.deutilt.gympasschallenge.models.dtos.RaceDTO;
 import br.com.deutilt.gympasschallenge.models.dtos.ResultDTO;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,8 @@ import java.util.stream.Collectors;
 @Service
 public class ResultServiceProvider implements IResultService {
 
-    private RaceDTOToResultDTOConverter converter = new RaceDTOToResultDTOConverter();
+    private RaceDTOToResultDTOConverter raceDTOToResultDTOConverter = new RaceDTOToResultDTOConverter();
+    private LapRecordToLapRecordDTOConverter lapRecordToLapRecordDTOConverter = new LapRecordToLapRecordDTOConverter();
 
     private List<LapRecord> getLapsFromDriver(List<LapRecord> lapRecords, String driverId){
         return lapRecords.stream().filter(lap -> lap.getDriver().getId().equals(driverId)).collect(Collectors.toList());
@@ -31,12 +34,17 @@ public class ResultServiceProvider implements IResultService {
         return lapsFromDriver.stream().max(lapNumberComparator).get();
     }
 
-    private Duration getTotalDurationFrom(List<LapRecord> lapRecords){
-        return lapRecords
+    private Duration getTotalDurationFrom(List<LapRecord> lapRecordsFromDriver){
+        return lapRecordsFromDriver
                 .stream()
                 .map(lapRecord -> lapRecord.getLapDuration())
                     .reduce((firstValue, secondValue) -> firstValue.plus(secondValue))
                 .get();
+    }
+
+    private LapRecord getBestLapFrom(List<LapRecord> lapRecordsFromDriver){
+        Comparator<LapRecord> durationComparator = Comparator.comparing(LapRecord::getLapDuration);
+        return lapRecordsFromDriver.stream().min(durationComparator).get();
     }
 
     public List<ResultDTO> getResults(List<LapRecord> lapRecords){
@@ -49,9 +57,15 @@ public class ResultServiceProvider implements IResultService {
             List<LapRecord> lapsFromDriver = getLapsFromDriver(lapRecords, driverId);
             LapRecord lastLapFromDriver = getLastLapFromDriver(lapRecords, driverId);
 
+            Duration totalDuration = getTotalDurationFrom(lapsFromDriver);
+            LapRecord bestLapFromDriver = getBestLapFrom(lapsFromDriver);
+            LapRecordDTO bestLapFromDriverDTO = lapRecordToLapRecordDTOConverter.convert(bestLapFromDriver);
+
             RaceDTO raceDTO = new RaceDTO.Builder()
                                                 .withLapRecord(lastLapFromDriver)
-                                                .withTotalDuration(getTotalDurationFrom(lapsFromDriver)).build();
+                                                .withTotalDuration(totalDuration)
+                                                .withBestLap(bestLapFromDriverDTO)
+                                                .build();
 
             raceDTOFromEachDriver.add(raceDTO);
         }
@@ -60,7 +74,7 @@ public class ResultServiceProvider implements IResultService {
         List<RaceDTO> sortedRaceDTO = raceDTOFromEachDriver.stream().sorted(totalDurationComparator).collect(Collectors.toList());
 
         for(RaceDTO raceDTO : sortedRaceDTO) {
-            result.add(converter.convert(position, raceDTO));
+            result.add(raceDTOToResultDTOConverter.convert(position, raceDTO));
             position += 1;
         }
 

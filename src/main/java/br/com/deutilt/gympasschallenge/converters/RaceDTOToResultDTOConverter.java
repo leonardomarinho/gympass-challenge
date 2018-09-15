@@ -1,6 +1,7 @@
 package br.com.deutilt.gympasschallenge.converters;
 
 import br.com.deutilt.gympasschallenge.interfaces.IResultDTOConverter;
+import br.com.deutilt.gympasschallenge.models.dtos.LapRecordDTO;
 import br.com.deutilt.gympasschallenge.models.dtos.RaceDTO;
 import br.com.deutilt.gympasschallenge.models.dtos.ResultDTO;
 import br.com.deutilt.gympasschallenge.utils.DurationUtils;
@@ -14,6 +15,7 @@ public class RaceDTOToResultDTOConverter implements IResultDTOConverter{
         String driverName = raceDTO.getLapRecord().getDriver().getName();
         String completedLaps = String.valueOf(raceDTO.getLapRecord().getLapNumber());
         String totalDuration = DurationUtils.getFormattedStringFrom(raceDTO.getTotalDuration());
+        LapRecordDTO bestLap = raceDTO.getBestLap();
 
         return new ResultDTO.Builder()
                 .withPosition(position)
@@ -21,6 +23,7 @@ public class RaceDTOToResultDTOConverter implements IResultDTOConverter{
                 .withDriverName(driverName)
                 .withCompletedLaps(completedLaps)
                 .withTotalDuration(totalDuration)
+                .withBestLap(bestLap)
                 .build();
     }
 }

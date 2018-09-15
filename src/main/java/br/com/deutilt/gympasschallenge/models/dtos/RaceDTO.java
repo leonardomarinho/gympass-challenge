@@ -8,10 +8,12 @@ public class RaceDTO {
 
     private LapRecord lapRecord;
     private Duration totalDuration;
+    private LapRecordDTO bestLap;
 
     public RaceDTO(Builder builder){
         this.lapRecord = builder.lapRecord;
         this.totalDuration = builder.totalDuration;
+        this.bestLap = builder.bestLap;
     }
 
     public LapRecord getLapRecord() {
@@ -22,9 +24,14 @@ public class RaceDTO {
         return totalDuration;
     }
 
+    public LapRecordDTO getBestLap() {
+        return bestLap;
+    }
+
     public static class Builder{
         private LapRecord lapRecord;
         private Duration totalDuration;
+        private LapRecordDTO bestLap;
 
         public Builder withLapRecord (LapRecord lapRecord){
             this.lapRecord = lapRecord;
@@ -33,6 +40,11 @@ public class RaceDTO {
 
         public Builder withTotalDuration(Duration totalDuration){
             this.totalDuration = totalDuration;
+            return this;
+        }
+
+        public Builder withBestLap(LapRecordDTO bestLap) {
+            this.bestLap = bestLap;
             return this;
         }
 
