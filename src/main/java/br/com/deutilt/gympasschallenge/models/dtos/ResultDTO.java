@@ -7,6 +7,7 @@ public class ResultDTO {
     private String driverName;
     private String completedLaps;
     private String totalDuration;
+    private String totalAverageSpeed;
     private LapRecordDTO bestLap;
 
     public ResultDTO(Builder builder) {
@@ -16,6 +17,7 @@ public class ResultDTO {
         this.completedLaps = builder.completedLaps;
         this.totalDuration = builder.totalDuration;
         this.bestLap = builder.bestLap;
+        this.totalAverageSpeed = builder.totalAverageSpeed;
     }
 
     public int getPosition() {
@@ -38,6 +40,10 @@ public class ResultDTO {
         return totalDuration;
     }
 
+    public String getTotalAverageSpeed() {
+        return totalAverageSpeed;
+    }
+
     public LapRecordDTO getBestLap() {
         return bestLap;
     }
@@ -49,6 +55,7 @@ public class ResultDTO {
         private String completedLaps;
         private String totalDuration;
         private LapRecordDTO bestLap;
+        private String totalAverageSpeed;
 
         public Builder withPosition(int position) {
             this.position = position;
@@ -72,6 +79,11 @@ public class ResultDTO {
 
         public Builder withTotalDuration(String totalDuration) {
             this.totalDuration = totalDuration;
+            return this;
+        }
+
+        public Builder withTotalAverageSpeed(String totalAverageSpeed) {
+            this.totalAverageSpeed = totalAverageSpeed;
             return this;
         }
 

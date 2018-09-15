@@ -15,6 +15,7 @@ public class RaceDTOToResultDTOConverter implements IResultDTOConverter{
         String driverName = raceDTO.getLapRecord().getDriver().getName();
         String completedLaps = String.valueOf(raceDTO.getLapRecord().getLapNumber());
         String totalDuration = DurationUtils.getFormattedStringFrom(raceDTO.getTotalDuration());
+        String totalAverageSpeed = String.valueOf(raceDTO.getTotalAverageSpeed());
         LapRecordDTO bestLap = raceDTO.getBestLap();
 
         return new ResultDTO.Builder()
@@ -23,6 +24,7 @@ public class RaceDTOToResultDTOConverter implements IResultDTOConverter{
                 .withDriverName(driverName)
                 .withCompletedLaps(completedLaps)
                 .withTotalDuration(totalDuration)
+                .withTotalAverageSpeed(totalAverageSpeed)
                 .withBestLap(bestLap)
                 .build();
     }

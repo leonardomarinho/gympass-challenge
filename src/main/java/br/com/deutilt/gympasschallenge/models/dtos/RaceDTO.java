@@ -2,6 +2,7 @@ package br.com.deutilt.gympasschallenge.models.dtos;
 
 import br.com.deutilt.gympasschallenge.models.LapRecord;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 
 public class RaceDTO {
@@ -9,11 +10,13 @@ public class RaceDTO {
     private LapRecord lapRecord;
     private Duration totalDuration;
     private LapRecordDTO bestLap;
+    private BigDecimal totalAverageSpeed;
 
     public RaceDTO(Builder builder){
         this.lapRecord = builder.lapRecord;
         this.totalDuration = builder.totalDuration;
         this.bestLap = builder.bestLap;
+        this.totalAverageSpeed = builder.totalAverageSpeed;
     }
 
     public LapRecord getLapRecord() {
@@ -28,10 +31,15 @@ public class RaceDTO {
         return bestLap;
     }
 
+    public BigDecimal getTotalAverageSpeed() {
+        return totalAverageSpeed;
+    }
+
     public static class Builder{
         private LapRecord lapRecord;
         private Duration totalDuration;
         private LapRecordDTO bestLap;
+        private BigDecimal totalAverageSpeed;
 
         public Builder withLapRecord (LapRecord lapRecord){
             this.lapRecord = lapRecord;
@@ -45,6 +53,11 @@ public class RaceDTO {
 
         public Builder withBestLap(LapRecordDTO bestLap) {
             this.bestLap = bestLap;
+            return this;
+        }
+
+        public Builder withTotalAverageSpeed(BigDecimal totalAverageSpeed){
+            this.totalAverageSpeed = totalAverageSpeed;
             return this;
         }
 

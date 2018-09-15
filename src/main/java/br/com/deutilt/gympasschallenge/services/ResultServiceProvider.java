@@ -9,6 +9,8 @@ import br.com.deutilt.gympasschallenge.models.dtos.RaceDTO;
 import br.com.deutilt.gympasschallenge.models.dtos.ResultDTO;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -42,6 +44,17 @@ public class ResultServiceProvider implements IResultService {
                 .get();
     }
 
+    private BigDecimal getTotalAverageSpeedFrom(List<LapRecord> lapRecordsFromDriver){
+        BigDecimal sum = lapRecordsFromDriver
+                .stream()
+                .map(lapRecord -> lapRecord.getAverageLapSpeed())
+                .reduce((firstValue, secondValue) -> firstValue.add(secondValue))
+                .get();
+
+        return sum.divide(new BigDecimal(lapRecordsFromDriver.size()), RoundingMode.UP);
+    }
+
+
     private LapRecord getBestLapFrom(List<LapRecord> lapRecordsFromDriver){
         Comparator<LapRecord> durationComparator = Comparator.comparing(LapRecord::getLapDuration);
         return lapRecordsFromDriver.stream().min(durationComparator).get();
@@ -60,11 +73,13 @@ public class ResultServiceProvider implements IResultService {
             Duration totalDuration = getTotalDurationFrom(lapsFromDriver);
             LapRecord bestLapFromDriver = getBestLapFrom(lapsFromDriver);
             LapRecordDTO bestLapFromDriverDTO = lapRecordToLapRecordDTOConverter.convert(bestLapFromDriver);
+            BigDecimal averageSpeedFromDriver = getTotalAverageSpeedFrom(lapsFromDriver);
 
             RaceDTO raceDTO = new RaceDTO.Builder()
                                                 .withLapRecord(lastLapFromDriver)
                                                 .withTotalDuration(totalDuration)
                                                 .withBestLap(bestLapFromDriverDTO)
+                                                .withTotalAverageSpeed(averageSpeedFromDriver)
                                                 .build();
 
             raceDTOFromEachDriver.add(raceDTO);
