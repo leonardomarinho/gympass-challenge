@@ -1,19 +1,19 @@
 package br.com.deutilt.gympasschallenge.models;
 
 public class Driver {
-    private Integer id;
+    private String id;
     private String name;
 
-    public Driver(Integer id, String name) {
+    public Driver(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

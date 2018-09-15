@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
-public class StringUtils {
+public class DurationUtils {
 
     private static final Integer HOURS_IN_MILLISECONDS = 3600000;
     private static final Integer MINUTES_IN_MILLISECONDS = 60000;
@@ -37,5 +37,15 @@ public class StringUtils {
 
             return Duration.ofMillis((HOURS_IN_MILLISECONDS * hours) + (MINUTES_IN_MILLISECONDS * minutes) + (SECONDS_IN_MILLISECONDS * seconds) + milliseconds);
         }
+    }
+
+    public static String getFormattedStringFrom(Duration duration){
+        long durationInMillis = duration.toMillis();
+        long millis = durationInMillis % 1000;
+        long second = (durationInMillis / 1000) % 60;
+        long minute = (durationInMillis / (1000 * 60)) % 60;
+        long hour = (durationInMillis / (1000 * 60 * 60)) % 24;
+
+        return String.format("%02d:%02d:%02d.%d", hour, minute, second, millis);
     }
 }

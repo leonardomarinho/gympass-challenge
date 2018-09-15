@@ -3,7 +3,7 @@ package br.com.deutilt.gympasschallenge.converters;
 import br.com.deutilt.gympasschallenge.interfaces.ILapRecordConverter;
 import br.com.deutilt.gympasschallenge.models.Driver;
 import br.com.deutilt.gympasschallenge.models.LapRecord;
-import br.com.deutilt.gympasschallenge.utils.StringUtils;
+import br.com.deutilt.gympasschallenge.utils.DurationUtils;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -30,7 +30,7 @@ public class StringToLapRecordConverter implements ILapRecordConverter{
         LocalTime lapHour = LocalTime.parse(data.get(LAP_HOUR_POSITION).trim());
         Driver driver = driverConverter.convert(data.get(DRIVER_POSITION).trim());
         Integer lapNumber = Integer.valueOf(data.get(LAP_NUMBER_POSITION).trim());
-        Duration lapDuration = StringUtils.getDurationFrom(data.get(LAP_TIME_POSITION).trim());
+        Duration lapDuration = DurationUtils.getDurationFrom(data.get(LAP_TIME_POSITION).trim());
         BigDecimal averageLapSpeed = new BigDecimal(data.get(AVERAGE_LAP_SPEED_POSITION).replace(COMMA, DOT).trim());
 
         LapRecord record = new LapRecord.Builder()

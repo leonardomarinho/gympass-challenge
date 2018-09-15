@@ -2,6 +2,7 @@ package br.com.deutilt.gympasschallenge.services;
 
 import br.com.deutilt.gympasschallenge.converters.StringToLapRecordConverter;
 import br.com.deutilt.gympasschallenge.interfaces.IFileReader;
+import br.com.deutilt.gympasschallenge.interfaces.IFileService;
 import br.com.deutilt.gympasschallenge.interfaces.ILapRecordConverter;
 import br.com.deutilt.gympasschallenge.models.LapRecord;
 import br.com.deutilt.gympasschallenge.readers.LogReader;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class FileService {
+public class FileServiceProvider implements IFileService {
 
     private IFileReader logReader = new LogReader();
     private ILapRecordConverter converter = new StringToLapRecordConverter();

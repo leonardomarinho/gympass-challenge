@@ -9,6 +9,6 @@ public class StringToDriverConverter implements IDriverConverter{
 
     public Driver convert(String line){
         String splitResult[] = line.split(SPLIT_CHAR);
-        return new Driver(Integer.parseInt(splitResult[0]), splitResult[1]);
+        return new Driver(splitResult[0], splitResult[1]);
     }
 }
