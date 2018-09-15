@@ -1,20 +1,21 @@
-package br.com.deutilt.gympasschallenge.model;
+package br.com.deutilt.gympasschallenge.models;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalTime;
 
 public class LapRecord {
     private LocalTime hour;
     private Driver driver;
     private Integer lapNumber;
-    private LocalTime lapTime;
+    private Duration lapDuration;
     private BigDecimal averageLapSpeed;
 
     private LapRecord(Builder builder){
         this.hour = builder.hour;
         this.driver = builder.driver;
         this.lapNumber = builder.lapNumber;
-        this.lapTime = builder.lapTime;
+        this.lapDuration = builder.lapDuration;
         this.averageLapSpeed = builder.averageLapSpeed;
     }
 
@@ -42,12 +43,12 @@ public class LapRecord {
         this.lapNumber = lapNumber;
     }
 
-    public LocalTime getLapTime() {
-        return lapTime;
+    public Duration getLapDuration() {
+        return lapDuration;
     }
 
-    public void setLapTime(LocalTime lapTime) {
-        this.lapTime = lapTime;
+    public void setLapDuration(Duration lapDuration) {
+        this.lapDuration = lapDuration;
     }
 
     public BigDecimal getAverageLapSpeed() {
@@ -58,13 +59,15 @@ public class LapRecord {
         this.averageLapSpeed = averageLapSpeed;
     }
 
-    public class Builder{
+    public static class Builder{
 
         private LocalTime hour;
         private Driver driver;
         private Integer lapNumber;
-        private LocalTime lapTime;
+        private Duration lapDuration;
         private BigDecimal averageLapSpeed;
+
+        public Builder(){}
 
         public Builder withHour(LocalTime hour){
             this.hour = hour;
@@ -81,8 +84,8 @@ public class LapRecord {
             return this;
         }
 
-        public Builder withlapTime(LocalTime lapTime){
-            this.lapTime = lapTime;
+        public Builder withLapDuration(Duration lapDuration){
+            this.lapDuration = lapDuration;
             return this;
         }
 

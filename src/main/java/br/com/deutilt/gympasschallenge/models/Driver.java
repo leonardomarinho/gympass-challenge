@@ -1,4 +1,4 @@
-package br.com.deutilt.gympasschallenge.model;
+package br.com.deutilt.gympasschallenge.models;
 
 public class Driver {
     private Integer id;
