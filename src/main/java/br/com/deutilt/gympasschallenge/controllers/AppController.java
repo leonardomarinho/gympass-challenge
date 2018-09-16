@@ -1,8 +1,8 @@
 package br.com.deutilt.gympasschallenge.controllers;
 
+import br.com.deutilt.gympasschallenge.interfaces.IFileService;
+import br.com.deutilt.gympasschallenge.interfaces.IResultService;
 import br.com.deutilt.gympasschallenge.models.dtos.ResultDTO;
-import br.com.deutilt.gympasschallenge.services.FileServiceProvider;
-import br.com.deutilt.gympasschallenge.services.ResultServiceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -12,23 +12,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 
 @Controller
 public class AppController {
 
-    private FileServiceProvider fileServiceProvider;
-    private ResultServiceProvider resultServiceProvider;
+    private IFileService fileService;
+    private IResultService resultService;
 
     @Autowired
-    public AppController(FileServiceProvider fileServiceProvider, ResultServiceProvider resultServiceProvider) {
-        this.fileServiceProvider = fileServiceProvider;
-        this.resultServiceProvider = resultServiceProvider;
+    public AppController(IFileService fileService, IResultService resultService) {
+        this.fileService = fileService;
+        this.resultService = resultService;
     }
 
     @PostMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody List<ResultDTO> handleFileUpload(@RequestParam("file") MultipartFile file){
-        return resultServiceProvider.getResults(fileServiceProvider.getFromFile(file));
+    @ResponseBody
+    public ResultDTO handleFileUpload(@RequestParam("file") MultipartFile file){
+        return resultService.getResult(fileService.getFromFile(file));
     }
 }

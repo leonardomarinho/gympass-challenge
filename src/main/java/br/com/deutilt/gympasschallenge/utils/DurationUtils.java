@@ -1,5 +1,7 @@
 package br.com.deutilt.gympasschallenge.utils;
 
+import br.com.deutilt.gympasschallenge.models.LapRecord;
+
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
@@ -47,5 +49,22 @@ public class DurationUtils {
         long hour = (durationInMillis / (1000 * 60 * 60)) % 24;
 
         return String.format("%02d:%02d:%02d.%d", hour, minute, second, millis);
+    }
+
+    public static Duration getTotalDurationFrom(List<LapRecord> lapRecordsFromDriver){
+        return lapRecordsFromDriver
+                .stream()
+                .map(lapRecord -> lapRecord.getLapDuration())
+                .reduce((firstValue, secondValue) -> firstValue.plus(secondValue))
+                .get();
+    }
+
+    public static Duration getDelayBetween(LapRecord first, LapRecord second){
+        if (first.getLapNumber().equals(second.getLapNumber())) {
+            return second.getLapDuration().minus(first.getLapDuration());
+        } else{
+            //Didn't finish the race
+            return first.getLapDuration().plus(second.getLapDuration().minus(first.getLapDuration()));
+        }
     }
 }

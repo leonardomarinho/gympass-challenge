@@ -1,9 +1,9 @@
 package br.com.deutilt.gympasschallenge.interfaces;
 
 import br.com.deutilt.gympasschallenge.models.dtos.RaceDTO;
-import br.com.deutilt.gympasschallenge.models.dtos.ResultDTO;
+import br.com.deutilt.gympasschallenge.models.dtos.PositionDTO;
 
 public interface IResultDTOConverter {
 
-    ResultDTO convert(int position, RaceDTO raceDTO);
+    PositionDTO convert(int position, RaceDTO raceDTO);
 }
