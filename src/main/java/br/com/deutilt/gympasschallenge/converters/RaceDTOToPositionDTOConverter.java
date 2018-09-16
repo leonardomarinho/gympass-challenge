@@ -1,12 +1,12 @@
 package br.com.deutilt.gympasschallenge.converters;
 
-import br.com.deutilt.gympasschallenge.interfaces.IResultDTOConverter;
+import br.com.deutilt.gympasschallenge.interfaces.IPositionDTOConverter;
 import br.com.deutilt.gympasschallenge.models.dtos.LapRecordDTO;
 import br.com.deutilt.gympasschallenge.models.dtos.RaceDTO;
 import br.com.deutilt.gympasschallenge.models.dtos.PositionDTO;
 import br.com.deutilt.gympasschallenge.utils.DurationUtils;
 
-public class RaceDTOToResultDTOConverter implements IResultDTOConverter{
+public class RaceDTOToPositionDTOConverter implements IPositionDTOConverter {
 
     @Override
     public PositionDTO convert(int position, RaceDTO raceDTO) {

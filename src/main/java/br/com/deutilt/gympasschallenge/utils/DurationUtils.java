@@ -42,13 +42,17 @@ public class DurationUtils {
     }
 
     public static String getFormattedStringFrom(Duration duration){
-        long durationInMillis = duration.toMillis();
-        long millis = durationInMillis % 1000;
-        long second = (durationInMillis / 1000) % 60;
-        long minute = (durationInMillis / (1000 * 60)) % 60;
-        long hour = (durationInMillis / (1000 * 60 * 60)) % 24;
+        if (duration != null) {
+            long durationInMillis = duration.toMillis();
+            long millis = durationInMillis % 1000;
+            long second = (durationInMillis / 1000) % 60;
+            long minute = (durationInMillis / (1000 * 60)) % 60;
+            long hour = (durationInMillis / (1000 * 60 * 60)) % 24;
 
-        return String.format("%02d:%02d:%02d.%d", hour, minute, second, millis);
+            return String.format("%02d:%02d:%02d.%d", hour, minute, second, millis);
+        }
+
+        return null;
     }
 
     public static Duration getTotalDurationFrom(List<LapRecord> lapRecordsFromDriver){

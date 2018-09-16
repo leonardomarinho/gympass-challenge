@@ -17,19 +17,19 @@ import java.util.List;
 public class ResultServiceProvider implements IResultService{
 
     private IPositionService positionService;
-    private LapRecordService lapRecordService;
+    private LapRecordServiceProvider lapRecordServiceProvider;
     private ILapRecordDTOConverter converter = new LapRecordToLapRecordDTOConverter();
 
     @Autowired
-    public ResultServiceProvider(IPositionService positionService, LapRecordService lapRecordService) {
+    public ResultServiceProvider(IPositionService positionService, LapRecordServiceProvider lapRecordServiceProvider) {
         this.positionService = positionService;
-        this.lapRecordService = lapRecordService;
+        this.lapRecordServiceProvider = lapRecordServiceProvider;
     }
 
     @Override
     public ResultDTO getResult(List<LapRecord> lapRecords) {
         List<PositionDTO> results = positionService.getPositions(lapRecords);
-        LapRecordDTO bestLapFromRace = converter.convert(lapRecordService.getBestLapFrom(lapRecords));
+        LapRecordDTO bestLapFromRace = converter.convert(lapRecordServiceProvider.getBestLapFrom(lapRecords));
 
         return new ResultDTO(bestLapFromRace, results);
     }

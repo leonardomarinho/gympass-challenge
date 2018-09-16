@@ -1,22 +1,25 @@
 package br.com.deutilt.gympasschallenge.services;
 
 import br.com.deutilt.gympasschallenge.converters.LapRecordToLapRecordDTOConverter;
-import br.com.deutilt.gympasschallenge.converters.RaceDTOToResultDTOConverter;
+import br.com.deutilt.gympasschallenge.converters.RaceDTOToPositionDTOConverter;
 import br.com.deutilt.gympasschallenge.interfaces.ILapRecordDTOConverter;
 import br.com.deutilt.gympasschallenge.interfaces.ILapRecordService;
+import br.com.deutilt.gympasschallenge.interfaces.IPositionDTOConverter;
 import br.com.deutilt.gympasschallenge.interfaces.IPositionService;
-import br.com.deutilt.gympasschallenge.interfaces.IResultDTOConverter;
 import br.com.deutilt.gympasschallenge.models.LapRecord;
 import br.com.deutilt.gympasschallenge.models.dtos.LapRecordDTO;
-import br.com.deutilt.gympasschallenge.models.dtos.RaceDTO;
 import br.com.deutilt.gympasschallenge.models.dtos.PositionDTO;
+import br.com.deutilt.gympasschallenge.models.dtos.RaceDTO;
 import br.com.deutilt.gympasschallenge.utils.DurationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,13 +27,13 @@ public class PositionServiceProvider implements IPositionService {
 
     private static final int FIRST_PLACE = 0;
 
-    private IResultDTOConverter raceDTOToResultDTOConverter = new RaceDTOToResultDTOConverter();
+    private IPositionDTOConverter raceDTOToResultDTOConverter = new RaceDTOToPositionDTOConverter();
     private ILapRecordDTOConverter lapRecordToLapRecordDTOConverter = new LapRecordToLapRecordDTOConverter();
     private ILapRecordService lapRecordService;
 
     @Autowired
-    public PositionServiceProvider(LapRecordService lapRecordService) {
-        this.lapRecordService = lapRecordService;
+    public PositionServiceProvider(LapRecordServiceProvider lapRecordServiceProvider) {
+        this.lapRecordService = lapRecordServiceProvider;
     }
 
 

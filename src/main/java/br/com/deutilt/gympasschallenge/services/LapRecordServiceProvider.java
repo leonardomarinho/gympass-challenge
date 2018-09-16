@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class LapRecordService implements ILapRecordService{
+public class LapRecordServiceProvider implements ILapRecordService{
 
     public List<LapRecord> getLapsFromDriver(List<LapRecord> lapRecords, String driverId){
         return lapRecords.stream().filter(lap -> lap.getDriver().getId().equals(driverId)).collect(Collectors.toList());
