@@ -1,7 +1,5 @@
 package br.com.deutilt.gympasschallenge.services;
 
-import br.com.deutilt.gympasschallenge.converters.LapRecordToLapRecordDTOConverter;
-import br.com.deutilt.gympasschallenge.converters.RaceDTOToPositionDTOConverter;
 import br.com.deutilt.gympasschallenge.interfaces.ILapRecordDTOConverter;
 import br.com.deutilt.gympasschallenge.interfaces.ILapRecordService;
 import br.com.deutilt.gympasschallenge.interfaces.IPositionDTOConverter;
@@ -27,12 +25,14 @@ public class PositionServiceProvider implements IPositionService {
 
     private static final int FIRST_PLACE = 0;
 
-    private IPositionDTOConverter raceDTOToResultDTOConverter = new RaceDTOToPositionDTOConverter();
-    private ILapRecordDTOConverter lapRecordToLapRecordDTOConverter = new LapRecordToLapRecordDTOConverter();
+    private IPositionDTOConverter raceDTOToResultDTOConverter;
+    private ILapRecordDTOConverter lapRecordToLapRecordDTOConverter;
     private ILapRecordService lapRecordService;
 
     @Autowired
-    public PositionServiceProvider(LapRecordServiceProvider lapRecordServiceProvider) {
+    public PositionServiceProvider(IPositionDTOConverter raceDTOToResultDTOConverter, ILapRecordDTOConverter lapRecordToLapRecordDTOConverter, ILapRecordService lapRecordServiceProvider) {
+        this.raceDTOToResultDTOConverter = raceDTOToResultDTOConverter;
+        this.lapRecordToLapRecordDTOConverter = lapRecordToLapRecordDTOConverter;
         this.lapRecordService = lapRecordServiceProvider;
     }
 
