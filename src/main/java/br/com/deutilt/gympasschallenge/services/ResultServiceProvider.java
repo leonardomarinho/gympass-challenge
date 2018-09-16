@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 @Service
 public class ResultServiceProvider implements IResultService {
 
+    private static final int FIRST_PLACE = 0;
+
     private RaceDTOToResultDTOConverter raceDTOToResultDTOConverter = new RaceDTOToResultDTOConverter();
     private LapRecordToLapRecordDTOConverter lapRecordToLapRecordDTOConverter = new LapRecordToLapRecordDTOConverter();
 
@@ -60,6 +62,15 @@ public class ResultServiceProvider implements IResultService {
         return lapRecordsFromDriver.stream().min(durationComparator).get();
     }
 
+    private Duration getDelayBetween(LapRecord first, LapRecord second){
+        if (first.getLapNumber().equals(second.getLapNumber())) {
+            return second.getLapDuration().minus(first.getLapDuration());
+        } else{
+            //Didn't finish the race
+            return first.getLapDuration().plus(second.getLapDuration().minus(first.getLapDuration()));
+        }
+    }
+
     public List<ResultDTO> getResults(List<LapRecord> lapRecords){
         Set<String> driversIds = getDriversIds(lapRecords);
         List<RaceDTO> raceDTOFromEachDriver = new ArrayList<>();
@@ -89,6 +100,8 @@ public class ResultServiceProvider implements IResultService {
         List<RaceDTO> sortedRaceDTO = raceDTOFromEachDriver.stream().sorted(totalDurationComparator).collect(Collectors.toList());
 
         for(RaceDTO raceDTO : sortedRaceDTO) {
+            Duration delayBetweenDrivers = getDelayBetween(sortedRaceDTO.get(FIRST_PLACE).getLapRecord(), raceDTO.getLapRecord());
+            raceDTO.setDelayAfterWinner(delayBetweenDrivers);
             result.add(raceDTOToResultDTOConverter.convert(position, raceDTO));
             position += 1;
         }

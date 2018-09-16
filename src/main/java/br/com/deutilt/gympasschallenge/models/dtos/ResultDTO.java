@@ -8,6 +8,7 @@ public class ResultDTO {
     private String completedLaps;
     private String totalDuration;
     private String totalAverageSpeed;
+    private String delayAfterWinner;
     private LapRecordDTO bestLap;
 
     public ResultDTO(Builder builder) {
@@ -18,6 +19,7 @@ public class ResultDTO {
         this.totalDuration = builder.totalDuration;
         this.bestLap = builder.bestLap;
         this.totalAverageSpeed = builder.totalAverageSpeed;
+        this.delayAfterWinner = builder.delayAfterWinner;
     }
 
     public int getPosition() {
@@ -48,6 +50,10 @@ public class ResultDTO {
         return bestLap;
     }
 
+    public String getDelayAfterWinner() {
+        return delayAfterWinner;
+    }
+
     public static class Builder {
         private int position;
         private String driverId;
@@ -56,6 +62,7 @@ public class ResultDTO {
         private String totalDuration;
         private LapRecordDTO bestLap;
         private String totalAverageSpeed;
+        private String delayAfterWinner;
 
         public Builder withPosition(int position) {
             this.position = position;
@@ -89,6 +96,11 @@ public class ResultDTO {
 
         public Builder withBestLap(LapRecordDTO bestLap) {
             this.bestLap = bestLap;
+            return this;
+        }
+
+        public Builder withDelayAfterWinner(String delayAfterWinner){
+            this.delayAfterWinner = delayAfterWinner;
             return this;
         }
 
