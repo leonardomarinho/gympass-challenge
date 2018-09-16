@@ -2,6 +2,8 @@ package br.com.deutilt.gympasschallenge.converters;
 
 import br.com.deutilt.gympasschallenge.models.dtos.PositionDTO;
 import br.com.deutilt.gympasschallenge.models.dtos.RaceDTO;
+import br.com.deutilt.gympasschallenge.utils.DurationUtils;
+import br.com.deutilt.gympasschallenge.utils.RaceDTOTestUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,7 +15,7 @@ public class RaceDTOToPositionDTOConverterTest {
     private PositionDTO positionDTO;
 
     @Test
-    public void shouldConvertARaceDTOWithoutNullValues(){
+    public void shouldConvertARaceDTOWithoutNullValues() {
         givenARaceDTOWithoutNullValues();
         givenARaceDTOToPositionDTOConverter();
         whenConverting();
@@ -22,7 +24,7 @@ public class RaceDTOToPositionDTOConverterTest {
     }
 
     @Test
-    public void shouldConvertARaceDTOWithNullValues(){
+    public void shouldConvertARaceDTOWithNullValues() {
         givenARaceDTOWithNullValues();
         givenARaceDTOToPositionDTOConverter();
         whenConverting();
@@ -30,23 +32,23 @@ public class RaceDTOToPositionDTOConverterTest {
     }
 
 
-    private void givenARaceDTOWithoutNullValues(){
+    private void givenARaceDTOWithoutNullValues() {
         this.raceDTO = RaceDTOTestUtils.getRaceDTOWithoutNullValues();
     }
 
-    private void givenARaceDTOWithNullValues(){
+    private void givenARaceDTOWithNullValues() {
         this.raceDTO = RaceDTOTestUtils.getRaceDTOWithNullValues();
     }
 
-    private void givenARaceDTOToPositionDTOConverter(){
+    private void givenARaceDTOToPositionDTOConverter() {
         this.converter = new RaceDTOToPositionDTOConverter();
     }
 
-    private void whenConverting(){
+    private void whenConverting() {
         this.positionDTO = this.converter.convert(1, raceDTO);
     }
 
-    private void shouldReturnAPositionDTOWithoutNullValues(){
+    private void shouldReturnAPositionDTOWithoutNullValues() {
         assertNotNull(positionDTO.getBestLap().getLapNumber());
         assertNotNull(positionDTO.getBestLap().getLapDuration());
         assertNotNull(positionDTO.getBestLap().getHour());
@@ -59,26 +61,32 @@ public class RaceDTOToPositionDTOConverterTest {
         assertNotNull(positionDTO.getDriverName());
         assertNotNull(positionDTO.getDriverId());
         assertNotNull(positionDTO.getPosition());
-    }                                               
+    }
 
-    private void shouldReturnAPositionDTOWithTheSameValues(){
-        assertNotNull(raceDTO.getBestLap().getLapNumber(), positionDTO.getBestLap().getLapNumber());
-        assertNotNull(raceDTO.getBestLap().getLapDuration(), positionDTO.getBestLap().getLapDuration());
-        assertNotNull(raceDTO.getBestLap().getHour(), positionDTO.getBestLap().getHour());
-        assertNotNull(raceDTO.getBestLap().getDriverName(), positionDTO.getBestLap().getDriverName());
-        assertNotNull(raceDTO.getBestLap().getDriverId(), positionDTO.getBestLap().getDriverId());
-        assertNotNull(raceDTO.getBestLap().getAverageLapSpeed(), positionDTO.getBestLap().getAverageLapSpeed());
+    private void shouldReturnAPositionDTOWithTheSameValues() {
+        assertEquals(String.valueOf(raceDTO.getBestLap().getLapNumber()), positionDTO.getBestLap().getLapNumber());
+        assertEquals(String.valueOf(raceDTO.getBestLap().getLapDuration()), positionDTO.getBestLap().getLapDuration());
+        assertEquals(String.valueOf(raceDTO.getBestLap().getHour()), positionDTO.getBestLap().getHour());
+        assertEquals(String.valueOf(raceDTO.getBestLap().getDriverName()), positionDTO.getBestLap().getDriverName());
+        assertEquals(String.valueOf(raceDTO.getBestLap().getDriverId()), positionDTO.getBestLap().getDriverId());
+        assertEquals(String.valueOf(raceDTO.getBestLap().getAverageLapSpeed()), positionDTO.getBestLap().getAverageLapSpeed());
+        assertNull(positionDTO.getDelayAfterWinner());
+        assertEquals(String.valueOf(raceDTO.getTotalAverageSpeed()), positionDTO.getTotalAverageSpeed());
+        assertEquals(String.valueOf(raceDTO.getLapRecord().getDriver().getName()), positionDTO.getDriverName());
+        assertEquals(String.valueOf(raceDTO.getLapRecord().getDriver().getId()), positionDTO.getDriverId());
     }
 
 
     private void andWithSameValuesAsTheRaceDTO() {
-        assertEquals(raceDTO.getBestLap().getLapNumber(), positionDTO.getBestLap().getLapNumber());
-        assertEquals(raceDTO.getBestLap().getLapDuration(), positionDTO.getBestLap().getLapDuration());
-        assertEquals(raceDTO.getBestLap().getHour(), positionDTO.getBestLap().getHour());
-        assertEquals(raceDTO.getBestLap().getDriverName(), positionDTO.getBestLap().getDriverName());
-        assertEquals(raceDTO.getBestLap().getDriverId(), positionDTO.getBestLap().getDriverId());
-        assertEquals(raceDTO.getBestLap().getAverageLapSpeed(), positionDTO.getBestLap().getAverageLapSpeed());
-        assertEquals(raceDTO.getDelayAfterWinner(), positionDTO.getDelayAfterWinner());
-        assertEquals(raceDTO.getTotalAverageSpeed(), positionDTO.getTotalAverageSpeed());
-        assertEquals(raceDTO.get, positionDTO.getCompletedLaps());
+        assertEquals(String.valueOf(raceDTO.getBestLap().getLapNumber()), positionDTO.getBestLap().getLapNumber());
+        assertEquals(String.valueOf(raceDTO.getBestLap().getLapDuration()), positionDTO.getBestLap().getLapDuration());
+        assertEquals(String.valueOf(raceDTO.getBestLap().getHour()), positionDTO.getBestLap().getHour());
+        assertEquals(String.valueOf(raceDTO.getBestLap().getDriverName()), positionDTO.getBestLap().getDriverName());
+        assertEquals(String.valueOf(raceDTO.getBestLap().getDriverId()), positionDTO.getBestLap().getDriverId());
+        assertEquals(String.valueOf(raceDTO.getBestLap().getAverageLapSpeed()), positionDTO.getBestLap().getAverageLapSpeed());
+        assertEquals(DurationUtils.getFormattedStringFrom(raceDTO.getDelayAfterWinner()), positionDTO.getDelayAfterWinner());
+        assertEquals(String.valueOf(raceDTO.getTotalAverageSpeed()), positionDTO.getTotalAverageSpeed());
+        assertEquals(String.valueOf(raceDTO.getLapRecord().getDriver().getName()), positionDTO.getDriverName());
+        assertEquals(String.valueOf(raceDTO.getLapRecord().getDriver().getId()), positionDTO.getDriverId());
     }
+}
