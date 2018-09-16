@@ -9,12 +9,12 @@ public class LapRecordToLapRecordDTOConverter implements ILapRecordDTOConverter 
 
     public LapRecordDTO convert(LapRecord lapRecord) {
 
-        String hour = lapRecord.getHour().toString();
+        String hour = String.valueOf(lapRecord.getHour());
         String driverId = lapRecord.getDriver().getId();
         String driverName = lapRecord.getDriver().getName();
-        String lapNumber = lapRecord.getLapNumber().toString();
+        String lapNumber = String.valueOf(lapRecord.getLapNumber());
         String lapDuration = DurationUtils.getFormattedStringFrom(lapRecord.getLapDuration());
-        String averageLapSpeed = lapRecord.getAverageLapSpeed().toString();
+        String averageLapSpeed = String.valueOf(lapRecord.getAverageLapSpeed());
 
         return new LapRecordDTO.Builder()
                                 .withHour(hour)
