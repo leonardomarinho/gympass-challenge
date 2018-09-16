@@ -25,13 +25,13 @@ public class PositionServiceProvider implements IPositionService {
 
     private static final int FIRST_PLACE = 0;
 
-    private IPositionDTOConverter raceDTOToResultDTOConverter;
+    private IPositionDTOConverter raceDTOToPositionDTOConverter;
     private ILapRecordDTOConverter lapRecordToLapRecordDTOConverter;
     private ILapRecordService lapRecordService;
 
     @Autowired
-    public PositionServiceProvider(IPositionDTOConverter raceDTOToResultDTOConverter, ILapRecordDTOConverter lapRecordToLapRecordDTOConverter, ILapRecordService lapRecordServiceProvider) {
-        this.raceDTOToResultDTOConverter = raceDTOToResultDTOConverter;
+    public PositionServiceProvider(IPositionDTOConverter raceDTOToPositionDTOConverter, ILapRecordDTOConverter lapRecordToLapRecordDTOConverter, ILapRecordService lapRecordServiceProvider) {
+        this.raceDTOToPositionDTOConverter = raceDTOToPositionDTOConverter;
         this.lapRecordToLapRecordDTOConverter = lapRecordToLapRecordDTOConverter;
         this.lapRecordService = lapRecordServiceProvider;
     }
@@ -68,7 +68,7 @@ public class PositionServiceProvider implements IPositionService {
         for(RaceDTO raceDTO : sortedRaceDTO) {
             Duration delayBetweenDrivers = DurationUtils.getDelayBetween(sortedRaceDTO.get(FIRST_PLACE).getLapRecord(), raceDTO.getLapRecord());
             raceDTO.setDelayAfterWinner(delayBetweenDrivers);
-            result.add(raceDTOToResultDTOConverter.convert(position, raceDTO));
+            result.add(raceDTOToPositionDTOConverter.convert(position, raceDTO));
             position += 1;
         }
 
